@@ -22,6 +22,7 @@ import { inicializarFormulario }
     from "./ui/formulario.js";
 import { mostrarMensaje } from "./ui/mensajes.js";
 import { validarMiembro } from "./utils/validaciones.js";
+import { ordenarMiembros } from "./utils/helpers.js";
 
 const miembrosActuales = cargarMiembros(miembros);
 
@@ -226,7 +227,9 @@ function actualizarResumenDetallado(registros) {
 
 function actualizarResumenMesas(registros) {
     const cuerpo = document.getElementById("cuerpoResumenMesas");
-    const mesas = [...new Set(registros.map(miembro => miembro.mesa))].sort();
+    const mesas = [...new Set(
+        ordenarMiembros(registros).map(miembro => miembro.mesa)
+    )];
 
     cuerpo.innerHTML = "";
 

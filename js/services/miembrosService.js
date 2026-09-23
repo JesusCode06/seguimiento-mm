@@ -24,8 +24,8 @@ function normalizarMiembros(registros) {
 		...miembro,
 		cargo: miembro.cargo === "Secretario"
 			? "Secretaria"
-			: miembro.cargo === "Presidenta"
-				? "Presidente"
+			: miembro.cargo === "Presidente"
+				? "Presidenta"
 				: miembro.cargo,
 		nota: miembro.nota || "",
 		credencial: miembro.credencial || "Pendiente",

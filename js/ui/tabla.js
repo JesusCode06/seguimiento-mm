@@ -2,7 +2,7 @@
 // TABLA DE MIEMBROS
 // ==========================================
 
-import { claseEstado, escaparHtml } from "../utils/helpers.js";
+import { claseEstado, escaparHtml, ordenarMiembros } from "../utils/helpers.js";
 
 function renderizarEstado(estado) {
     const clase = claseEstado(estado);
@@ -36,7 +36,7 @@ export function renderizarTabla(miembros) {
     }
 
 
-    miembros.forEach(miembro => {
+    ordenarMiembros(miembros).forEach(miembro => {
 
         const fila =
             document.createElement("tr");
