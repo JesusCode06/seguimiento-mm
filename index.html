@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Seguimiento de Miembros de Mesa</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/tabla.css">
+    <link rel="stylesheet" href="css/formularios.css">
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- =====================================
+             ENCABEZADO
+        ====================================== -->
+        <header class="encabezado">
+
+            <div class="encabezado-contenido">
+
+                <div class="logo">
+                    <div class="logo-icono">🗳️</div>
+
+                    <div>
+                        <h1>Sistema de Seguimiento</h1>
+                        <p>Miembros de Mesa · Charat 2026</p>
+                    </div>
+                </div>
+
+                <div class="encabezado-info">
+                    <span>Elecciones Regionales y Municipales 2026</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================
+             CONTENIDO PRINCIPAL
+        ====================================== -->
+        <main class="contenedor">
+
+            <!-- =================================
+                 PRESENTACIÓN
+            ================================== -->
+            <section class="presentacion">
+
+                <div>
+                    <h2>Seguimiento de miembros de mesa</h2>
+
+                    <p>
+                        Gestiona, consulta y realiza el seguimiento
+                        de los miembros de mesa registrados.
+                    </p>
+                </div>
+
+                <div class="acciones-principales">
+                    <div class="selector-vistas" role="tablist" aria-label="Vista del sistema">
+                        <button class="btn-vista activo" id="btnVistaSeguimiento" type="button" role="tab" aria-selected="true">
+                            Seguimiento
+                        </button>
+                        <button class="btn-vista" id="btnVistaResumen" type="button" role="tab" aria-selected="false">
+                            Resumen
+                        </button>
+                    </div>
+                    <button class="btn-secundario" id="btnImprimir" type="button" title="Abre la opción del navegador para guardar el resumen como PDF">
+                        Generar resumen PDF
+                    </button>
+                    <button class="btn-principal" id="btnNuevoMiembro" type="button">
+                        + Nuevo miembro
+                    </button>
+                    <details class="menu-opciones">
+                        <summary>Más opciones</summary>
+                        <div class="menu-opciones-contenido">
+                            <button class="btn-principal" id="btnReporteExcel" type="button">
+                                Descargar reporte Excel
+                            </button>
+                            <button class="btn-secundario" id="btnExportar" type="button">
+                                Descargar respaldo
+                            </button>
+                            <button class="btn-secundario" id="btnImportar" type="button">
+                                Importar respaldo
+                            </button>
+                            <button class="btn-secundario btn-peligro" id="btnRestaurar" type="button">
+                                Restaurar iniciales
+                            </button>
+                            <button class="btn-secundario btn-peligro" id="btnEliminarTodos" type="button">
+                                Eliminar todos los miembros
+                            </button>
+                        </div>
+                    </details>
+                    <input id="archivoImportacion" type="file" accept="application/json" hidden>
+                </div>
+
+            </section>
+
+            <section class="panel resumen-mesas-panel vista-resumen-panel">
+                <div class="panel-cabecera">
+                    <div>
+                        <h2>Avance por mesa</h2>
+                        <p>Control rápido del progreso de cada mesa sobre sus 9 cargos.</p>
+                    </div>
+                </div>
+
+                <div class="tabla-contenedor">
+                    <table class="tabla-resumen-mesas">
+                        <thead>
+                            <tr>
+                                <th>Mesa</th>
+                                <th>Registrados</th>
+                                <th>Contacto</th>
+                                <th>Capacitación</th>
+                                <th>Credencial</th>
+                                <th>Asistencia</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cuerpoResumenMesas"></tbody>
+                    </table>
+                </div>
+            </section>
+
+
+            <!-- =================================
+                 RESUMEN
+            ================================== -->
+            <section class="resumen">
+
+                <div class="tarjeta-resumen">
+                    <span class="tarjeta-titulo">Mesas</span>
+                    <strong id="totalMesas">0</strong>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <span class="tarjeta-titulo">Miembros</span>
+                    <strong id="totalMiembros">0</strong>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <span class="tarjeta-titulo">Contactados</span>
+                    <strong id="totalContactados">0</strong>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <span class="tarjeta-titulo">Capacitados</span>
+                    <strong id="totalCapacitados">0</strong>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <span class="tarjeta-titulo">Asistencia 04 de octubre</span>
+                    <strong id="totalAsistencia">0</strong>
+                </div>
+
+            </section>
+
+
+            <section class="panel resumen-detallado vista-resumen-panel">
+                <div class="panel-cabecera">
+                    <div>
+                        <h2>Resumen detallado del seguimiento</h2>
+                        <p>Distribución actual de cada actividad entre todos los miembros registrados.</p>
+                    </div>
+                </div>
+
+                <div class="detalle-indicadores" id="detalleIndicadores"></div>
+            </section>
+
+
+            <!-- =================================
+                 FILTROS
+            ================================== -->
+            <section class="panel panel-filtros">
+
+                <div class="panel-cabecera">
+
+                    <div>
+                        <h2>Buscar y filtrar</h2>
+                        <p>Encuentra rápidamente un miembro de mesa.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="filtros">
+
+                    <div class="campo-busqueda">
+
+                        <label for="buscar">
+                            Buscar
+                        </label>
+
+                        <input
+                            type="text"
+                            id="buscar"
+                            placeholder="DNI, apellidos o nombres..."
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="filtroMesa">
+                            Mesa
+                        </label>
+
+                        <select id="filtroMesa">
+                            <option value="">Todas las mesas</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="filtroCargo">
+                            Cargo
+                        </label>
+
+                        <select id="filtroCargo">
+
+                            <option value="">
+                                Todos los cargos
+                            </option>
+
+                            <option value="Presidente">
+                                Presidente
+                            </option>
+
+                            <option value="Secretaria">
+                                Secretaria
+                            </option>
+
+                            <option value="Tercer miembro">
+                                Tercer miembro
+                            </option>
+
+                            <option value="Primer suplente">
+                                Primer suplente
+                            </option>
+
+                            <option value="Segundo suplente">
+                                Segundo suplente
+                            </option>
+
+                            <option value="Tercer suplente">
+                                Tercer suplente
+                            </option>
+
+                            <option value="Cuarto suplente">
+                                Cuarto suplente
+                            </option>
+
+                            <option value="Quinto suplente">
+                                Quinto suplente
+                            </option>
+
+                            <option value="Sexto suplente">
+                                Sexto suplente
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="filtroContacto">
+                            Contacto
+                        </label>
+
+                        <select id="filtroContacto">
+
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="Pendiente">
+                                Pendiente
+                            </option>
+
+                            <option value="Sí">
+                                Sí
+                            </option>
+
+                            <option value="No">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="filtroCapacitacion">
+                            Capacitación
+                        </label>
+
+                        <select id="filtroCapacitacion">
+
+                            <option value="">
+                                Todas
+                            </option>
+
+                            <option value="Pendiente">
+                                Pendiente
+                            </option>
+
+                            <option value="Sí">
+                                Sí
+                            </option>
+
+                            <option value="No">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="filtroAsistencia">
+                            Asistencia 04 de octubre
+                        </label>
+
+                        <select id="filtroAsistencia">
+
+                            <option value="">
+                                Todas
+                            </option>
+
+                            <option value="Pendiente">
+                                Pendiente
+                            </option>
+
+                            <option value="Sí">
+                                Sí
+                            </option>
+
+                            <option value="No">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="campo">
+
+                        <label for="filtroCredencial">
+                            Credencial
+                        </label>
+
+                        <select id="filtroCredencial">
+                            <option value="">Todas</option>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Sí">Entregada</option>
+                            <option value="No">No entregada</option>
+                        </select>
+
+                    </div>
+
+                    <div class="campo campo-accion-filtro">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn-secundario" id="btnLimpiarFiltros">
+                            Limpiar filtros
+                        </button>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================
+                 TABLA
+            ================================== -->
+            <section class="panel panel-miembros">
+
+                <div class="panel-cabecera">
+
+                    <div>
+                        <h2>Miembros de mesa</h2>
+
+                        <p>
+                            Registro de miembros de mesa de Charat.
+                        </p>
+                    </div>
+
+                    <span class="contador">
+                        <span id="contadorRegistros">0</span>
+                        registros
+                    </span>
+
+                </div>
+
+
+                <div class="tabla-contenedor">
+
+                    <table id="tablaMiembros">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>DNI</th>
+                                <th>Apellidos</th>
+                                <th>Nombres</th>
+                                <th>Celular</th>
+                                <th>Mesa</th>
+                                <th>Cargo</th>
+                                <th>Contacto</th>
+                                <th>Capacitación</th>
+                                <th>Asistencia 04 de octubre</th>
+                                <th>Credencial</th>
+                                <th>Nota / observación</th>
+                                <th>Acciones</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="cuerpoTabla">
+
+                            <!--
+                                Los miembros se generarán
+                                posteriormente mediante JavaScript.
+                            -->
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+        <div id="mensajeAplicacion" class="mensaje-aplicacion" role="status" aria-live="polite"></div>
+
+        <!-- =====================================
+     MODAL NUEVO MIEMBRO
+====================================== -->
+
+<div
+    class="modal oculto"
+    id="modalMiembro"
+>
+
+    <div class="modal-contenido">
+
+        <!-- CABECERA -->
+
+        <div class="modal-cabecera">
+
+            <h2 id="tituloModal">
+                Nuevo miembro de mesa
+            </h2>
+
+            <button
+                type="button"
+                class="btn-cerrar"
+                id="btnCerrarModal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- FORMULARIO -->
+
+        <form
+            class="formulario"
+            id="formularioMiembro"
+        >
+
+            <!-- =============================
+                 DATOS PERSONALES
+            ============================== -->
+
+            <div class="formulario-seccion">
+
+                <h3>
+                    👤 Datos personales
+                </h3>
+
+
+                <div class="formulario-grid">
+
+                    <div class="formulario-campo">
+
+                        <label for="dni">
+                            DNI *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="dni"
+                            maxlength="8"
+                            placeholder="Ingrese DNI"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="formulario-campo">
+
+                        <label for="celular">
+                            Celular
+                        </label>
+
+                        <input
+                            type="text"
+                            id="celular"
+                            maxlength="9"
+                            placeholder="Ingrese celular"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="formulario-campo">
+
+                        <label for="apellidos">
+                            Apellidos *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="apellidos"
+                            placeholder="Apellidos"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="formulario-campo">
+
+                        <label for="nombres">
+                            Nombres *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombres"
+                            placeholder="Nombres"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div class="formulario-campo nota-campo">
+                    <label for="nota">Nota u observación</label>
+                    <textarea
+                        id="nota"
+                        rows="3"
+                        maxlength="500"
+                        placeholder="Escribe aquí alguna observación de esta persona..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+
+            <!-- =============================
+                 DATOS ELECTORALES
+            ============================== -->
+
+            <div class="formulario-seccion">
+
+                <h3>
+                    🗳️ Datos electorales
+                </h3>
+
+
+                <div class="formulario-grid">
+
+                    <div class="formulario-campo">
+
+                        <label for="mesa">
+                            Número de mesa *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mesa"
+                            placeholder="Ej. 030505"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="formulario-campo">
+
+                        <label for="cargo">
+                            Cargo *
+                        </label>
+
+                        <select
+                            id="cargo"
+                            required
+                        >
+
+                            <option value="">
+                                Seleccione cargo
+                            </option>
+
+                            <option value="Presidente">
+                                Presidente
+                            </option>
+
+                            <option value="Secretaria">
+                                Secretaria
+                            </option>
+
+                            <option value="Tercer miembro">
+                                Tercer miembro
+                            </option>
+
+                            <option value="Primer suplente">
+                                Primer suplente
+                            </option>
+
+                            <option value="Segundo suplente">
+                                Segundo suplente
+                            </option>
+
+                            <option value="Tercer suplente">
+                                Tercer suplente
+                            </option>
+
+                            <option value="Cuarto suplente">
+                                Cuarto suplente
+                            </option>
+
+                            <option value="Quinto suplente">
+                                Quinto suplente
+                            </option>
+
+                            <option value="Sexto suplente">
+                                Sexto suplente
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================
+                 SEGUIMIENTO
+            ============================== -->
+
+            <div class="formulario-seccion">
+
+                <h3>
+                    📋 Seguimiento
+                </h3>
+
+
+                <div class="formulario-grid">
+
+                    <!-- CONTACTO -->
+
+                    <div class="formulario-campo">
+
+                        <label for="contacto">
+                            Contacto *
+                        </label>
+
+                        <select
+                            id="contacto"
+                            required
+                        >
+
+                            <option value="Pendiente">
+                                Pendiente
+                            </option>
+
+                            <option value="Sí">
+                                Sí
+                            </option>
+
+                            <option value="No">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- CAPACITACIÓN -->
+
+                    <div class="formulario-campo">
+
+                        <label for="capacitacion">
+                            Capacitación *
+                        </label>
+
+                        <select
+                            id="capacitacion"
+                            required
+                        >
+
+                            <option value="Pendiente">
+                                Pendiente
+                            </option>
+
+                            <option value="Sí">
+                                Sí
+                            </option>
+
+                            <option value="No">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- MODALIDAD -->
+
+                    <div
+                        class="formulario-campo"
+                        id="campoModalidad"
+                    >
+
+                        <label for="modalidad">
+                            Modalidad *
+                        </label>
+
+                        <select id="modalidad">
+
+                            <option value="">
+                                Seleccione modalidad
+                            </option>
+
+                            <option value="Virtual">
+                                Virtual
+                            </option>
+
+                            <option value="Presencial">
+                                Presencial
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- LUGAR -->
+
+                    <div
+                        class="formulario-campo"
+                        id="campoLugar"
+                    >
+
+                        <label for="lugarCapacitacion">
+                            Lugar de capacitación *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="lugarCapacitacion"
+                            placeholder="Lugar"
+                        >
+
+                    </div>
+
+
+                    <!-- ASISTENCIA -->
+
+                    <div class="formulario-campo">
+
+                        <label for="asistencia">
+                            Asistencia 04 de octubre *
+                        </label>
+
+                        <select id="asistencia">
+
+                            <option value="Pendiente">
+                                Pendiente
+                            </option>
+
+                            <option value="Sí">
+                                Sí
+                            </option>
+
+                            <option value="No">
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- CREDENCIAL -->
+
+                    <div class="formulario-campo">
+
+                        <label for="credencial">
+                            Entregó credencial *
+                        </label>
+
+                        <select id="credencial" required>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Sí">Sí</option>
+                            <option value="No">No</option>
+                        </select>
+
+                    </div>
+
+                    <div class="formulario-campo" id="campoModalidadCredencial">
+
+                        <label for="modalidadCredencial">
+                            Forma de entrega *
+                        </label>
+
+                        <select id="modalidadCredencial">
+                            <option value="">Seleccione forma</option>
+                            <option value="Físico">Físico</option>
+                            <option value="Virtual">Virtual</option>
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+
+        <!-- PIE -->
+
+        <div class="modal-pie">
+
+            <button
+                type="button"
+                class="btn-secundario"
+                id="btnCancelarModal"
+            >
+                Cancelar
+            </button>
+
+            <button
+                type="submit"
+                form="formularioMiembro"
+                class="btn-guardar"
+                id="btnGuardarMiembro">
+                Guardar miembro
+            </button>
+
+            <button
+                type="button"
+                class="btn-eliminar"
+                id="btnEliminarMiembro"
+            >
+                Eliminar miembro
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+        <!-- =====================================
+             PIE DE PÁGINA
+        ====================================== -->
+        <footer class="footer">
+
+            <p>
+                Sistema de Seguimiento de Miembros de Mesa
+            </p>
+
+            <span>
+                Charat · Otuzco · La Libertad · 2026
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+/* =====================================
+   TABLA
+===================================== */
+
+.tabla-contenedor {
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 1100px;
+}
+
+
+thead {
+    background: #f8fafc;
+}
+
+
+th {
+    padding: 13px 15px;
+
+    text-align: left;
+
+    font-size: 12px;
+
+    color: var(--color-text-secondary);
+
+    font-weight: bold;
+
+    border-bottom:
+        1px solid var(--color-border);
+
+    white-space: nowrap;
+}
+
+
+td {
+    padding: 14px 15px;
+
+    font-size: 13px;
+
+    border-bottom:
+        1px solid var(--color-border);
+}
+
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+.estado {
+    display: inline-flex;
+    align-items: center;
+    min-width: 76px;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.estado-si {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.estado-no {
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+.estado-pendiente {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+/* =====================================
+   BOTÓN VER
+===================================== */
+
+.btn-ver {
+
+    border: none;
+
+    background: var(--color-primary-light);
+
+    color: var(--color-primary);
+
+    padding: 7px 12px;
+
+    border-radius: var(--radius-small);
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: bold;
+}
+
+
+.btn-ver:hover {
+
+    background: var(--color-primary);
+
+    color: white;
+}
+
+.celda-nota {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tabla-resumen-mesas {
+    min-width: 720px;
+}
+
+.tabla-resumen-mesas td:not(:first-child) {
+    text-align: center;
+}
+
+.tabla-vacia {
+    padding: 24px;
+    text-align: center;
+    color: var(--color-text-secondary);
+}

@@ -1,0 +1,347 @@
+/* =====================================
+   FORMULARIOS
+===================================== */
+
+.filtros {
+    padding: 20px;
+
+    display: grid;
+
+    grid-template-columns:
+        2fr
+        repeat(5, 1fr);
+
+    gap: 15px;
+}
+
+.campo,
+.campo-busqueda {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.campo label,
+.campo-busqueda label,
+.formulario-campo label {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--color-text-secondary);
+}
+
+.campo input,
+.campo select,
+.campo-busqueda input,
+.formulario-campo input,
+.formulario-campo select {
+    width: 100%;
+    padding: 11px 12px;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-small);
+
+    background: white;
+    color: var(--color-text);
+
+    outline: none;
+    font-size: 13px;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo-busqueda input:focus,
+.formulario-campo input:focus,
+.formulario-campo select:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px
+        var(--color-primary-light);
+}
+
+
+/* =====================================
+   MODAL
+===================================== */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 1000;
+}
+
+.modal.oculto {
+    display: none;
+}
+
+
+.modal-contenido {
+    width: 100%;
+    max-width: 800px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: var(--radius-large);
+
+    box-shadow: var(--shadow-medium);
+}
+
+
+.modal-cabecera {
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    border-bottom: 1px solid var(--color-border);
+}
+
+
+.modal-cabecera h2 {
+    font-size: 20px;
+}
+
+
+.btn-cerrar {
+    border: none;
+
+    background: transparent;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    color: var(--color-text-secondary);
+
+    width: 35px;
+    height: 35px;
+}
+
+
+.btn-cerrar:hover {
+    background: var(--color-background);
+
+    border-radius: 50%;
+}
+
+
+/* =====================================
+   FORMULARIO
+===================================== */
+
+.formulario {
+    padding: 25px;
+}
+
+
+.formulario-seccion {
+    margin-bottom: 25px;
+}
+
+
+.formulario-seccion h3 {
+    font-size: 15px;
+
+    margin-bottom: 15px;
+
+    padding-bottom: 8px;
+
+    border-bottom:
+        1px solid var(--color-border);
+}
+
+
+.formulario-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+
+.formulario-campo {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.formulario-campo.completo {
+    grid-column: 1 / -1;
+}
+
+
+/* =====================================
+   BOTONES FORMULARIO
+===================================== */
+
+.modal-pie {
+    padding: 20px 25px;
+
+    border-top:
+        1px solid var(--color-border);
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+
+.btn-secundario,
+.btn-guardar {
+    padding: 11px 18px;
+
+    border-radius: var(--radius-small);
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+.btn-secundario {
+    border: 1px solid var(--color-border);
+
+    background: white;
+
+    color: var(--color-text);
+}
+
+
+.btn-secundario:hover {
+    background: var(--color-background);
+}
+
+.btn-peligro {
+    color: var(--color-danger);
+}
+
+
+.btn-guardar {
+    border: none;
+
+    background: var(--color-primary);
+
+    color: white;
+}
+
+
+.btn-guardar:hover {
+    background: var(--color-primary-dark);
+}
+
+.btn-eliminar {
+    padding: 11px 18px;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius-small);
+    background: #fef2f2;
+    color: var(--color-danger);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.btn-eliminar:hover {
+    background: #fee2e2;
+}
+
+
+/* =====================================
+   CAMPOS CONDICIONALES
+===================================== */
+
+#campoModalidad,
+#campoLugar,
+#campoModalidadCredencial {
+    display: none;
+}
+
+
+#campoModalidad.visible,
+#campoLugar.visible,
+#campoModalidadCredencial.visible {
+    display: flex;
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (max-width: 1100px) {
+
+    .filtros {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .contenedor {
+        padding: 20px 14px;
+    }
+
+    .presentacion {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .acciones-principales {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .acciones-principales button {
+        flex: 1 1 auto;
+    }
+
+    .modal {
+        padding: 10px;
+    }
+
+    .filtros {
+        grid-template-columns: 1fr;
+    }
+
+    .formulario-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .formulario-campo.completo {
+        grid-column: auto;
+    }
+
+}
+
+.campo-accion-filtro .btn-secundario {
+    min-height: 38px;
+}

@@ -1,0 +1,37 @@
+:root {
+
+    /* Colores principales */
+    --color-primary: #1d4ed8;
+    --color-primary-dark: #1e3a8a;
+    --color-primary-light: #dbeafe;
+
+    /* Estados */
+    --color-success: #16a34a;
+    --color-warning: #d97706;
+    --color-danger: #dc2626;
+
+    /* Fondos */
+    --color-background: #f5f7fb;
+    --color-surface: #ffffff;
+
+    /* Texto */
+    --color-text: #1f2937;
+    --color-text-secondary: #6b7280;
+    --color-text-light: #9ca3af;
+
+    /* Bordes */
+    --color-border: #e5e7eb;
+
+    /* Dimensiones */
+    --radius-small: 6px;
+    --radius-medium: 10px;
+    --radius-large: 14px;
+
+    /* Sombras */
+    --shadow-small:
+        0 1px 3px rgba(0, 0, 0, 0.08);
+
+    --shadow-medium:
+        0 4px 12px rgba(0, 0, 0, 0.08);
+
+}
