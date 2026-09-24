@@ -317,6 +317,17 @@ function actualizarResumen(
     ).textContent =
         capacitados;
 
+    const credenciales =
+        miembrosActuales.filter(
+            miembro =>
+                miembro.credencial === "Sí"
+        ).length;
+
+    document.getElementById(
+        "totalCredenciales"
+    ).textContent =
+        credenciales;
+
 
     const asistencia =
         miembrosActuales.filter(

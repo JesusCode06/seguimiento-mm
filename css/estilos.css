@@ -642,3 +642,576 @@ main.vista-resumen-activa .panel-miembros {
     }
 
 }
+
+/* =====================================
+   LENGUAJE VISUAL DEL TABLERO
+===================================== */
+
+body {
+    background:
+        radial-gradient(circle at 12% 8%, rgba(219, 234, 254, .7), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
+    color: #172554;
+}
+
+.encabezado {
+    border-bottom: 0;
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 58%, #1d4ed8 100%);
+    box-shadow: 0 8px 24px rgba(30, 64, 175, .2);
+}
+
+.encabezado::before {
+    display: none;
+}
+
+.encabezado-contenido {
+    padding: 12px 32px;
+}
+
+.logo {
+    gap: 16px;
+}
+
+.logo-icono {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(255, 255, 255, .22);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .16);
+    color: white;
+}
+
+.logo h1,
+.logo p,
+.encabezado-info {
+    color: white;
+}
+
+.logo h1 {
+    font-size: 21px;
+}
+
+.logo p,
+.encabezado-info {
+    opacity: .88;
+}
+
+.encabezado-info::before {
+    margin-right: 8px;
+    content: "▣";
+}
+
+.contenedor {
+    padding: 28px 32px;
+}
+
+.presentacion {
+    margin-bottom: 26px;
+    padding-top: 0;
+}
+
+.presentacion > div:first-child h2 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #172554;
+    font-size: 25px;
+}
+
+.presentacion > div:first-child h2::before {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #dbeafe;
+    color: #2563eb;
+    content: "👥";
+    font-size: 24px;
+}
+
+.presentacion p {
+    margin-left: 64px;
+    color: #5d78a8;
+}
+
+.acciones-principales {
+    gap: 10px;
+}
+
+.selector-vistas {
+    border-color: #dbeafe;
+    border-radius: 9px;
+    background: #eff6ff;
+}
+
+.btn-vista.activo {
+    color: #2563eb;
+}
+
+.btn-principal,
+.btn-secundario,
+.menu-opciones summary {
+    border-radius: 9px;
+}
+
+.btn-principal {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    box-shadow: 0 5px 12px rgba(37, 99, 235, .18);
+}
+
+.resumen {
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.tarjeta-resumen {
+    position: relative;
+    min-height: 94px;
+    padding: 18px 20px 16px 72px;
+    overflow: hidden;
+    border: 1px solid #dbeafe;
+    border-top: 1px solid #dbeafe;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffffff 58%, #dbeafe 100%);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, .06);
+}
+
+.tarjeta-resumen::before {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #dbeafe;
+    content: "";
+    font-size: 19px;
+}
+
+.tarjeta-resumen:nth-child(1)::before { content: "▣"; }
+.tarjeta-resumen:nth-child(2)::before { content: "👥"; background: #d1fae5; }
+.tarjeta-resumen:nth-child(3)::before { content: "☎"; background: #ede9fe; }
+.tarjeta-resumen:nth-child(4)::before { content: "◆"; background: #ffedd5; }
+.tarjeta-resumen:nth-child(5)::before { content: "▣"; background: #cffafe; }
+
+.tarjeta-resumen:nth-child(2) { background: linear-gradient(135deg, #ffffff 58%, #dcfce7 100%); border-color: #bbf7d0; }
+.tarjeta-resumen:nth-child(3) { background: linear-gradient(135deg, #ffffff 58%, #f3e8ff 100%); border-color: #e9d5ff; }
+.tarjeta-resumen:nth-child(4) { background: linear-gradient(135deg, #ffffff 58%, #ffedd5 100%); border-color: #fed7aa; }
+.tarjeta-resumen:nth-child(5) { background: linear-gradient(135deg, #ffffff 58%, #cffafe 100%); border-color: #a5f3fc; }
+
+.tarjeta-titulo {
+    margin-bottom: 7px;
+    color: #58709a;
+    font-weight: bold;
+}
+
+.tarjeta-resumen strong {
+    color: #172554;
+    font-size: 28px;
+}
+
+.panel {
+    margin-bottom: 18px;
+    border-color: #dbeafe;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(37, 99, 235, .06);
+}
+
+.panel-cabecera {
+    padding: 16px 18px;
+    background: #ffffff;
+    border-bottom-color: #e5eefb;
+}
+
+.panel-cabecera h2 {
+    color: #172554;
+}
+
+.panel-cabecera p {
+    color: #6681b0;
+}
+
+.panel-filtros .panel-cabecera h2::before,
+.panel-miembros .panel-cabecera h2::before {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background: #dbeafe;
+    color: #2563eb;
+    content: "⌕";
+}
+
+.panel-miembros .panel-cabecera h2::before {
+    content: "👥";
+}
+
+@media (max-width: 700px) {
+    .encabezado-contenido,
+    .contenedor {
+        padding-right: 18px;
+        padding-left: 18px;
+    }
+
+    .encabezado-info {
+        display: none;
+    }
+
+    .presentacion > div:first-child h2 {
+        font-size: 21px;
+    }
+
+    .presentacion p {
+        margin-left: 0;
+    }
+
+    .tarjeta-resumen {
+        min-height: 86px;
+    }
+}
+
+/* =====================================
+   VISTA RESUMEN
+===================================== */
+
+.resumen {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.tarjeta-resumen:nth-child(5)::before {
+    content: "▤";
+    background: #cffafe;
+}
+
+.tarjeta-resumen:nth-child(5) {
+    background: linear-gradient(135deg, #ffffff 58%, #cffafe 100%);
+    border-color: #a5f3fc;
+}
+
+.tarjeta-resumen:nth-child(6)::before {
+    content: "▣";
+    background: #ede9fe;
+}
+
+.tarjeta-resumen:nth-child(6) {
+    background: linear-gradient(135deg, #ffffff 58%, #f3e8ff 100%);
+    border-color: #ddd6fe;
+}
+
+.resumen-mesas-panel .tabla-contenedor {
+    padding: 0 16px 16px;
+}
+
+.resumen-mesas-panel .tabla-resumen-mesas {
+    min-width: 760px;
+}
+
+.resumen-mesas-panel .tabla-resumen-mesas th,
+.resumen-mesas-panel .tabla-resumen-mesas td {
+    border-bottom-color: #e5eefb;
+}
+
+.resumen-mesas-panel .tabla-resumen-mesas th:not(:first-child),
+.resumen-mesas-panel .tabla-resumen-mesas td:not(:first-child) {
+    text-align: center;
+}
+
+.resumen-detallado .panel-cabecera h2::before,
+.resumen-mesas-panel .panel-cabecera h2::before {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background: #dbeafe;
+    color: #2563eb;
+    content: "▥";
+}
+
+.resumen-mesas-panel .panel-cabecera h2::before {
+    content: "▣";
+}
+
+.resumen-detallado .detalle-indicador {
+    background: #f8fbff;
+    border-color: #dbeafe;
+}
+
+.resumen-detallado .detalle-indicador:nth-child(2) {
+    background: #faf5ff;
+    border-color: #e9d5ff;
+}
+
+.resumen-detallado .detalle-indicador:nth-child(3) {
+    background: #fff7ed;
+    border-color: #fed7aa;
+}
+
+.resumen-detallado .detalle-indicador:nth-child(4) {
+    background: #ecfeff;
+    border-color: #a5f3fc;
+}
+
+@media (max-width: 1100px) {
+    .resumen {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .resumen {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Las tarjetas del resumen solo pertenecen a la vista Resumen. */
+main:not(.vista-resumen-activa) .resumen.vista-resumen-panel {
+    display: none;
+}
+
+main.vista-resumen-activa .resumen.vista-resumen-panel {
+    display: grid;
+}
+
+/* Ajuste compacto para aprovechar mejor la pantalla. */
+body {
+    font-size: 14px;
+}
+
+.encabezado-contenido {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.logo h1 {
+    font-size: 19px;
+}
+
+.logo p,
+.encabezado-info {
+    font-size: 12px;
+}
+
+.contenedor {
+    padding-top: 22px;
+    padding-bottom: 22px;
+}
+
+.presentacion > div:first-child h2 {
+    font-size: 22px;
+}
+
+.presentacion p {
+    font-size: 12px;
+}
+
+.btn-principal,
+.btn-secundario,
+.menu-opciones summary {
+    padding-top: 9px;
+    padding-bottom: 9px;
+    font-size: 12px;
+}
+
+.tarjeta-resumen {
+    min-height: 84px;
+    padding-top: 15px;
+    padding-bottom: 13px;
+}
+
+.tarjeta-resumen strong {
+    font-size: 25px;
+}
+
+.panel-cabecera {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.panel-cabecera h2 {
+    font-size: 16px;
+}
+
+.panel-cabecera p {
+    font-size: 12px;
+}
+
+@media (max-width: 700px) {
+    body {
+        font-size: 13px;
+    }
+
+    .contenedor {
+        padding-top: 16px;
+        padding-bottom: 16px;
+    }
+
+    .presentacion > div:first-child h2 {
+        font-size: 20px;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+        color: #172554;
+        font-size: 10pt;
+    }
+
+    .encabezado {
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        background: linear-gradient(135deg, #1e3a8a, #2563eb) !important;
+    }
+
+    .encabezado-contenido {
+        max-width: none;
+        padding: 14px 0;
+    }
+
+    .logo h1,
+    .logo p,
+    .encabezado-info {
+        color: white !important;
+    }
+
+    .contenedor {
+        max-width: none;
+        padding: 18px 0;
+    }
+
+    .presentacion {
+        margin-bottom: 16px;
+    }
+
+    .presentacion > div:first-child h2::before,
+    .panel-cabecera h2::before {
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .resumen {
+        display: grid !important;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+    }
+
+    .tarjeta-resumen {
+        min-height: 74px;
+        padding: 12px 8px 10px 42px;
+        border-radius: 8px;
+        box-shadow: none;
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .tarjeta-resumen::before {
+        top: 12px;
+        left: 8px;
+        width: 27px;
+        height: 27px;
+        font-size: 13px;
+    }
+
+    .tarjeta-titulo {
+        min-height: 24px;
+        margin-bottom: 3px;
+        font-size: 9px;
+    }
+
+    .tarjeta-resumen strong {
+        font-size: 20px;
+    }
+
+    .panel {
+        margin-bottom: 14px;
+        border-radius: 9px;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    .panel-cabecera {
+        padding: 12px 14px;
+    }
+
+    .panel-cabecera h2 {
+        font-size: 14px;
+    }
+
+    .panel-cabecera p {
+        font-size: 9px;
+    }
+
+    .resumen-mesas-panel .tabla-contenedor {
+        padding: 0 8px 8px;
+    }
+
+    .resumen-mesas-panel .tabla-resumen-mesas {
+        min-width: 0;
+    }
+
+    .resumen-mesas-panel .tabla-resumen-mesas th,
+    .resumen-mesas-panel .tabla-resumen-mesas td {
+        padding: 7px 6px;
+        font-size: 9px;
+    }
+
+    .resumen-mesas-panel .tabla-resumen-mesas th:last-child,
+    .resumen-mesas-panel .tabla-resumen-mesas td:last-child {
+        display: table-cell !important;
+    }
+
+    .detalle-indicadores {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .detalle-indicador {
+        padding: 10px;
+        border-radius: 8px;
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .detalle-indicador h3 {
+        font-size: 10px;
+    }
+
+    .detalle-indicador-cabecera strong {
+        font-size: 15px;
+    }
+
+    .barra-progreso {
+        height: 6px;
+        margin: 9px 0 8px;
+    }
+
+    .detalle-estados {
+        gap: 5px;
+        font-size: 8px;
+    }
+
+    .detalle-estados b {
+        font-size: 9px;
+    }
+
+    .footer {
+        padding: 10px 0 0;
+        font-size: 8px;
+    }
+}

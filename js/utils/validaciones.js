@@ -3,8 +3,12 @@ export function validarMiembro(miembro, miembros, miembroActual = null) {
 		return "El DNI debe tener exactamente 8 dígitos.";
 	}
 
-	if (!/^\d{9}$/.test(miembro.celular)) {
+	if (miembro.contacto === "Sí" && !/^\d{9}$/.test(miembro.celular)) {
 		return "El celular debe tener exactamente 9 dígitos.";
+	}
+
+	if (miembro.contacto !== "Sí" && miembro.celular) {
+		return "No ingreses celular si el contacto no está confirmado.";
 	}
 
 	if (!miembro.apellidos || !miembro.nombres || !miembro.mesa || !miembro.cargo) {

@@ -131,7 +131,7 @@
             <!-- =================================
                  RESUMEN
             ================================== -->
-            <section class="resumen">
+            <section class="resumen vista-resumen-panel">
 
                 <div class="tarjeta-resumen">
                     <span class="tarjeta-titulo">Mesas</span>
@@ -151,6 +151,11 @@
                 <div class="tarjeta-resumen">
                     <span class="tarjeta-titulo">Capacitados</span>
                     <strong id="totalCapacitados">0</strong>
+                </div>
+
+                <div class="tarjeta-resumen">
+                    <span class="tarjeta-titulo">Credencial</span>
+                    <strong id="totalCredenciales">0</strong>
                 </div>
 
                 <div class="tarjeta-resumen">
@@ -419,6 +424,7 @@
                                 <th>Apellidos</th>
                                 <th>Nombres</th>
                                 <th>Celular</th>
+                                <th>Lugar de pertenencia</th>
                                 <th>Mesa</th>
                                 <th>Cargo</th>
                                 <th>Contacto</th>
@@ -483,6 +489,66 @@
 
         <!-- FORMULARIO -->
 
+        <section class="detalle-miembro" id="detalleMiembro" aria-live="polite">
+            <div class="detalle-resumen">
+                <div class="detalle-identidad">
+                    <div class="detalle-avatar" aria-hidden="true">👤</div>
+                    <div>
+                        <h2 id="detalleNombreCompleto"></h2>
+                        <p><span class="detalle-meta-icon">▣</span><span id="detalleDni"></span><span class="detalle-separador">•</span><span class="detalle-meta-icon">☎</span><span id="detalleCelular"></span></p>
+                        <p class="detalle-ubicacion">📍 <span id="detalleLugarPertenencia"></span></p>
+                    </div>
+                </div>
+
+                <div class="detalle-estados">
+                    <p class="detalle-estados-titulo">Estado de seguimiento</p>
+                    <div class="detalle-estados-grid">
+                        <div class="detalle-estado">
+                            <span class="detalle-estado-icono" aria-hidden="true">●</span>
+                            <span class="detalle-estado-label">Contacto</span>
+                            <strong id="detalleContacto"></strong>
+                        </div>
+                        <div class="detalle-estado">
+                            <span class="detalle-estado-icono" aria-hidden="true">◆</span>
+                            <span class="detalle-estado-label">Capacitación</span>
+                            <strong id="detalleCapacitacion"></strong>
+                        </div>
+                        <div class="detalle-estado">
+                            <span class="detalle-estado-icono" aria-hidden="true">▣</span>
+                            <span class="detalle-estado-label">Asistencia</span>
+                            <strong id="detalleAsistencia"></strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detalle-seccion">
+                <h3><span aria-hidden="true">▣</span> Datos electorales</h3>
+                <div class="detalle-grid">
+                    <div class="detalle-dato"><span>Apellidos</span><strong id="detalleApellidos"></strong></div>
+                    <div class="detalle-dato"><span>Nombres</span><strong id="detalleNombres"></strong></div>
+                    <div class="detalle-dato"><span>Número de mesa</span><strong id="detalleMesa"></strong></div>
+                    <div class="detalle-dato"><span>Cargo</span><strong id="detalleCargo"></strong></div>
+                </div>
+            </div>
+
+            <div class="detalle-seccion">
+                <h3><span aria-hidden="true">◆</span> Seguimiento y capacitación</h3>
+                <div class="detalle-grid">
+                    <div class="detalle-dato"><span>Modalidad</span><strong id="detalleModalidad"></strong></div>
+                    <div class="detalle-dato"><span>Lugar de capacitación</span><strong id="detalleLugarCapacitacion"></strong></div>
+                    <div class="detalle-dato"><span>Asistencia 04 de octubre</span><strong id="detalleAsistenciaDetalle"></strong></div>
+                    <div class="detalle-dato"><span>Credencial</span><strong id="detalleCredencial"></strong></div>
+                    <div class="detalle-dato"><span>Forma de entrega</span><strong id="detalleModalidadCredencial"></strong></div>
+                </div>
+            </div>
+
+            <div class="detalle-seccion detalle-observacion-seccion">
+                <h3><span aria-hidden="true">▤</span> Nota u observación</h3>
+                <div class="detalle-observacion" id="detalleNota"></div>
+            </div>
+        </section>
+
         <form
             class="formulario"
             id="formularioMiembro"
@@ -498,6 +564,21 @@
                     👤 Datos personales
                 </h3>
 
+
+                <div class="formulario-campo completo campo-contacto">
+                    <span class="formulario-etiqueta">¿Se logró contactar a la persona? *</span>
+                    <div class="opciones-contacto" role="radiogroup" aria-label="Estado de contacto">
+                        <label class="opcion-contacto">
+                            <input type="radio" name="contacto" value="Sí">
+                            <span>Sí, se contactó</span>
+                        </label>
+                        <label class="opcion-contacto">
+                            <input type="radio" name="contacto" value="No">
+                            <span>No se contactó</span>
+                        </label>
+                    </div>
+                    <small class="ayuda-contacto">Si eliges Sí, deberás ingresar el número de celular.</small>
+                </div>
 
                 <div class="formulario-grid">
 
@@ -518,7 +599,7 @@
                     </div>
 
 
-                    <div class="formulario-campo">
+                    <div class="formulario-campo" id="campoCelular">
 
                         <label for="celular">
                             Celular
@@ -529,7 +610,6 @@
                             id="celular"
                             maxlength="9"
                             placeholder="Ingrese celular"
-                            required
                         >
 
                     </div>
@@ -566,6 +646,15 @@
 
                     </div>
 
+                </div>
+
+                <div class="formulario-campo completo">
+                    <label for="lugarPertenencia">Lugar al que pertenece</label>
+                    <input
+                        type="text"
+                        id="lugarPertenencia"
+                        placeholder="Centro poblado, comunidad o localidad"
+                    >
                 </div>
 
                 <div class="formulario-campo nota-campo">
@@ -682,36 +771,6 @@
 
 
                 <div class="formulario-grid">
-
-                    <!-- CONTACTO -->
-
-                    <div class="formulario-campo">
-
-                        <label for="contacto">
-                            Contacto *
-                        </label>
-
-                        <select
-                            id="contacto"
-                            required
-                        >
-
-                            <option value="Pendiente">
-                                Pendiente
-                            </option>
-
-                            <option value="Sí">
-                                Sí
-                            </option>
-
-                            <option value="No">
-                                No
-                            </option>
-
-                        </select>
-
-                    </div>
-
 
                     <!-- CAPACITACIÓN -->
 

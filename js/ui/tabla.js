@@ -26,7 +26,7 @@ export function renderizarTabla(miembros) {
 
         cuerpoTabla.innerHTML = `
             <tr>
-                <td colspan="12" style="text-align: center;">
+                <td colspan="13" style="text-align: center;">
                     No hay miembros registrados.
                 </td>
             </tr>
@@ -51,6 +51,8 @@ export function renderizarTabla(miembros) {
 
             <td>${escaparHtml(miembro.celular)}</td>
 
+            <td>${escaparHtml(miembro.lugarPertenencia || "-")}</td>
+
             <td>${escaparHtml(miembro.mesa)}</td>
 
             <td>${escaparHtml(miembro.cargo)}</td>
@@ -67,11 +69,27 @@ export function renderizarTabla(miembros) {
                 ${escaparHtml(miembro.nota || "-")}
             </td>
 
-            <td>
+            <td class="celda-acciones">
                 <button
-                    class="btn-ver"
-                    data-dni="${miembro.dni}">
+                    class="btn-accion btn-ver"
+                    data-dni="${miembro.dni}"
+                    type="button"
+                    title="Ver detalle">
                     Ver
+                </button>
+                <button
+                    class="btn-accion btn-editar"
+                    data-dni="${miembro.dni}"
+                    type="button"
+                    title="Editar miembro">
+                    Editar
+                </button>
+                <button
+                    class="btn-accion btn-eliminar-tabla"
+                    data-dni="${miembro.dni}"
+                    type="button"
+                    title="Eliminar miembro">
+                    Eliminar
                 </button>
             </td>
 
@@ -83,14 +101,14 @@ export function renderizarTabla(miembros) {
 
 
     // ==========================================
-    // BOTONES VER
+    // ACCIONES DE LA TABLA
     // ==========================================
 
-    const botonesVer =
-        document.querySelectorAll(".btn-ver");
+    const botonesAccion =
+        document.querySelectorAll(".btn-accion");
 
 
-    botonesVer.forEach(boton => {
+    botonesAccion.forEach(boton => {
 
         boton.addEventListener(
             "click",
@@ -111,16 +129,14 @@ export function renderizarTabla(miembros) {
                 }
 
 
-                // Avisamos al sistema
-                // que queremos ver este miembro
+                const evento = boton.classList.contains("btn-editar")
+                    ? "editarMiembro"
+                    : boton.classList.contains("btn-eliminar-tabla")
+                        ? "eliminarMiembro"
+                        : "verMiembro";
 
                 document.dispatchEvent(
-                    new CustomEvent(
-                        "verMiembro",
-                        {
-                            detail: miembro
-                        }
-                    )
+                    new CustomEvent(evento, { detail: miembro })
                 );
 
             }

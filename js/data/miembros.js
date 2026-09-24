@@ -10,6 +10,7 @@ export const miembros = [
         apellidos: "VARAS LUJAN",
         nombres: "MERCY YOCENI",
         celular: "999111222",
+        lugarPertenencia: "Charat",
         mesa: "030505",
         cargo: "Presidenta",
 
@@ -30,6 +31,7 @@ export const miembros = [
         apellidos: "URBINA ESCOBAR",
         nombres: "JHONATAN SMITH",
         celular: "999222333",
+        lugarPertenencia: "Charat",
         mesa: "030505",
         cargo: "Secretario",
 
@@ -50,6 +52,7 @@ export const miembros = [
         apellidos: "SOLANO FLOREANO",
         nombres: "KELVIN JAREN",
         celular: "999333444",
+        lugarPertenencia: "Charat",
         mesa: "030505",
         cargo: "Tercer miembro",
 
@@ -70,6 +73,7 @@ export const miembros = [
         apellidos: "RODRIGUEZ GARCIA",
         nombres: "MARIA ELENA",
         celular: "999444555",
+        lugarPertenencia: "Charat",
         mesa: "030505",
         cargo: "Primer suplente",
 
@@ -90,6 +94,7 @@ export const miembros = [
         apellidos: "PEREZ SANCHEZ",
         nombres: "JUAN CARLOS",
         celular: "999555666",
+        lugarPertenencia: "Charat",
         mesa: "030505",
         cargo: "Segundo suplente",
 
@@ -110,6 +115,7 @@ export const miembros = [
         apellidos: "CASTILLO TORRES",
         nombres: "ANA SOFIA",
         celular: "999666777",
+        lugarPertenencia: "Charat",
         mesa: "030506",
         cargo: "Presidenta",
 

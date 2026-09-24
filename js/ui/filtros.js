@@ -88,6 +88,7 @@ export function inicializarFiltros(miembros, callback) {
                     miembro.apellidos,
                     miembro.nombres,
                     miembro.celular,
+                    miembro.lugarPertenencia,
                     miembro.cargo,
                     miembro.nota,
                     miembro.modalidadCredencial,

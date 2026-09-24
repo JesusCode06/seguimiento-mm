@@ -22,6 +22,8 @@ export function cargarMiembros(miembrosIniciales) {
 function normalizarMiembros(registros) {
 	return registros.map(miembro => ({
 		...miembro,
+		celular: miembro.contacto === "Sí" ? (miembro.celular || "") : "",
+		lugarPertenencia: miembro.lugarPertenencia || "",
 		cargo: miembro.cargo === "Secretario"
 			? "Secretaria"
 			: miembro.cargo === "Presidente"
@@ -115,12 +117,13 @@ export function exportarReporteExcel(miembros) {
 		`<Row><Cell ss:MergeAcross="3" ss:StyleID="Nota"><Data ss:Type="String">Este reporte se genera desde el seguimiento guardado en el navegador. Revise la hoja Pendientes para organizar las próximas acciones.</Data></Cell></Row>`
 	].join("");
 
-	const encabezados = ["DNI", "Apellidos", "Nombres", "Celular", "Mesa", "Cargo", "Contacto", "Capacitación", "Modalidad capacitación", "Lugar capacitación", "Asistencia 04 de octubre", "Entregó credencial", "Forma de entrega", "Nota / observación", "Acciones pendientes"];
+	const encabezados = ["DNI", "Apellidos", "Nombres", "Celular", "Lugar de pertenencia", "Mesa", "Cargo", "Contacto", "Capacitación", "Modalidad capacitación", "Lugar capacitación", "Asistencia 04 de octubre", "Entregó credencial", "Forma de entrega", "Nota / observación", "Acciones pendientes"];
 	const detalle = [filaExcel(encabezados, "Encabezado")].concat(miembros.map(miembro => filaExcel([
 		miembro.dni,
 		miembro.apellidos,
 		miembro.nombres,
 		miembro.celular,
+		miembro.lugarPertenencia || "-",
 		miembro.mesa,
 		miembro.cargo,
 		miembro.contacto,

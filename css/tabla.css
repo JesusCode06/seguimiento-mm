@@ -19,7 +19,7 @@ table {
 
 
 thead {
-    background: #f8fafc;
+    background: #eff6ff;
 }
 
 
@@ -30,7 +30,7 @@ th {
 
     font-size: 12px;
 
-    color: var(--color-text-secondary);
+    color: #36527f;
 
     font-weight: bold;
 
@@ -46,13 +46,12 @@ td {
 
     font-size: 13px;
 
-    border-bottom:
-        1px solid var(--color-border);
+    border-bottom: 1px solid #e5eefb;
 }
 
 
 tbody tr:hover {
-    background: #f8fafc;
+    background: #f8fbff;
 }
 
 .estado {
@@ -64,52 +63,69 @@ tbody tr:hover {
     border-radius: 999px;
     font-size: 11px;
     font-weight: bold;
+    border: 1px solid transparent;
 }
 
 .estado-si {
     color: #166534;
     background: #dcfce7;
+    border-color: #bbf7d0;
 }
 
 .estado-no {
     color: #991b1b;
     background: #fee2e2;
+    border-color: #fecaca;
 }
 
 .estado-pendiente {
     color: #92400e;
     background: #fef3c7;
+    border-color: #fde68a;
 }
 
 /* =====================================
-   BOTÓN VER
+   ACCIONES
 ===================================== */
 
-.btn-ver {
+.celda-acciones {
+    white-space: nowrap;
+}
+
+.btn-accion {
 
     border: none;
 
-    background: var(--color-primary-light);
-
-    color: var(--color-primary);
-
-    padding: 7px 12px;
+    padding: 8px 10px;
 
     border-radius: var(--radius-small);
 
     cursor: pointer;
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: bold;
+    margin-right: 4px;
 }
 
+.btn-ver {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+}
 
-.btn-ver:hover {
+.btn-editar {
+    background: #fef3c7;
+    color: #92400e;
+}
 
-    background: var(--color-primary);
+.btn-eliminar-tabla {
+    background: #fee2e2;
+    color: #991b1b;
+}
 
-    color: white;
+.btn-accion:hover {
+
+    filter: brightness(0.94);
 }
 
 .celda-nota {
@@ -131,4 +147,80 @@ tbody tr:hover {
     padding: 24px;
     text-align: center;
     color: var(--color-text-secondary);
+}
+
+/* Tabla principal compacta para evitar el scroll horizontal. */
+.panel-miembros .tabla-contenedor {
+    overflow-x: hidden;
+}
+
+.panel-miembros #tablaMiembros {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+}
+
+.panel-miembros #tablaMiembros th,
+.panel-miembros #tablaMiembros td {
+    padding: 9px 6px;
+    font-size: 10px;
+    overflow-wrap: anywhere;
+}
+
+.panel-miembros #tablaMiembros th {
+    white-space: normal;
+    line-height: 1.2;
+}
+
+.panel-miembros #tablaMiembros th:nth-child(1),
+.panel-miembros #tablaMiembros td:nth-child(1) { width: 5%; }
+.panel-miembros #tablaMiembros th:nth-child(2),
+.panel-miembros #tablaMiembros td:nth-child(2) { width: 8%; }
+.panel-miembros #tablaMiembros th:nth-child(3),
+.panel-miembros #tablaMiembros td:nth-child(3) { width: 8%; }
+.panel-miembros #tablaMiembros th:nth-child(4),
+.panel-miembros #tablaMiembros td:nth-child(4) { width: 6%; }
+.panel-miembros #tablaMiembros th:nth-child(5),
+.panel-miembros #tablaMiembros td:nth-child(5) { width: 8%; }
+.panel-miembros #tablaMiembros th:nth-child(6),
+.panel-miembros #tablaMiembros td:nth-child(6) { width: 6%; }
+.panel-miembros #tablaMiembros th:nth-child(7),
+.panel-miembros #tablaMiembros td:nth-child(7) { width: 7%; }
+.panel-miembros #tablaMiembros th:nth-child(8),
+.panel-miembros #tablaMiembros td:nth-child(8) { width: 7%; }
+.panel-miembros #tablaMiembros th:nth-child(9),
+.panel-miembros #tablaMiembros td:nth-child(9) { width: 8%; }
+.panel-miembros #tablaMiembros th:nth-child(10),
+.panel-miembros #tablaMiembros td:nth-child(10) { width: 8%; }
+.panel-miembros #tablaMiembros th:nth-child(11),
+.panel-miembros #tablaMiembros td:nth-child(11) { width: 6%; }
+.panel-miembros #tablaMiembros th:nth-child(12),
+.panel-miembros #tablaMiembros td:nth-child(12) { width: 8%; }
+.panel-miembros #tablaMiembros th:nth-child(13),
+.panel-miembros #tablaMiembros td:nth-child(13) { width: 15%; }
+
+.panel-miembros .celda-acciones {
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+.panel-miembros .btn-accion {
+    margin-right: 1px;
+    padding: 6px 5px;
+    font-size: 9px;
+}
+
+@media (max-width: 900px) {
+    .panel-miembros #tablaMiembros th,
+    .panel-miembros #tablaMiembros td {
+        padding: 7px 4px;
+        font-size: 9px;
+    }
+
+    .panel-miembros .btn-accion {
+        display: block;
+        width: 100%;
+        margin: 2px 0;
+        padding: 5px 3px;
+    }
 }

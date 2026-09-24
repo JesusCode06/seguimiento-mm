@@ -13,6 +13,7 @@ export function inicializarFormulario(miembros, callback) {
 
 const modal = document.getElementById("modalMiembro");
 const formulario = document.getElementById("formularioMiembro");
+const detalleMiembro = document.getElementById("detalleMiembro");
 
 const btnNuevo = document.getElementById("btnNuevoMiembro");
 const btnCerrar = document.getElementById("btnCerrarModal");
@@ -24,6 +25,9 @@ const titulo = document.getElementById("tituloModal");
 
 const campoModalidad = document.getElementById("campoModalidad");
 const campoLugar = document.getElementById("campoLugar");
+const campoCelular = document.getElementById("campoCelular");
+const opcionesContacto = document.querySelectorAll('input[name="contacto"]');
+const celularInput = document.getElementById("celular");
 
 const capacitacion = document.getElementById("capacitacion");
 const modalidad = document.getElementById("modalidad");
@@ -43,15 +47,20 @@ miembroEditando = null;
 titulo.textContent = "Nuevo miembro de mesa";
 
 formulario.reset();
+formulario.style.display = "block";
+detalleMiembro.classList.remove("visible");
+modal.classList.remove("modal-detalle-activo");
 
 habilitarCampos();
 
 campoModalidad.classList.remove("visible");
 campoLugar.classList.remove("visible");
 campoModalidadCredencial.classList.remove("visible");
+actualizarCamposCondicionales();
 
 btnGuardar.style.display = "inline-flex";
 btnEliminar.style.display = "none";
+btnCancelar.textContent = "Cancelar";
 btnGuardar.type = "submit";
 btnGuardar.textContent = "Guardar miembro";
 
@@ -68,21 +77,56 @@ function abrirVer(miembro) {
 modoFormulario = "ver";
 miembroEditando = miembro;
 
-titulo.textContent = "Ver miembro de mesa";
+titulo.textContent = "Detalle de la persona";
 
-cargarDatos(miembro);
+renderizarDetalle(miembro);
+formulario.style.display = "none";
+detalleMiembro.classList.add("visible");
+modal.classList.add("modal-detalle-activo");
 
-// Bloqueamos los campos
-deshabilitarCampos();
-
-// El botón NO debe enviar el formulario
+// La vista de detalle es solo informativa.
 btnGuardar.type = "button";
-btnGuardar.textContent = "Editar";
-btnGuardar.style.display = "inline-flex";
-btnEliminar.style.display = "inline-flex";
+btnGuardar.style.display = "none";
+btnEliminar.style.display = "none";
+btnCancelar.textContent = "Cerrar";
 
 modal.classList.remove("oculto");
 
+}
+
+function renderizarDetalle(miembro) {
+  const nombreCompleto = `${miembro.nombres || ""} ${miembro.apellidos || ""}`.trim();
+  const valores = {
+    detalleNombreCompleto: nombreCompleto,
+    detalleDni: `DNI ${miembro.dni || "No registrado"}`,
+    detalleCelular: `Cel. ${miembro.celular || "No registrado"}`,
+    detalleLugarPertenencia: miembro.lugarPertenencia,
+    detalleApellidos: miembro.apellidos,
+    detalleNombres: miembro.nombres,
+    detalleMesa: miembro.mesa,
+    detalleCargo: miembro.cargo,
+    detalleModalidad: miembro.modalidad,
+    detalleLugarCapacitacion: miembro.lugarCapacitacion,
+    detalleAsistenciaDetalle: miembro.asistencia,
+    detalleCredencial: miembro.credencial || "Pendiente",
+    detalleModalidadCredencial: miembro.modalidadCredencial,
+    detalleNota: miembro.nota
+  };
+
+  Object.entries(valores).forEach(([id, valor]) => {
+    document.getElementById(id).textContent = valor || "No registrado";
+  });
+
+  [
+    ["detalleContacto", miembro.contacto],
+    ["detalleCapacitacion", miembro.capacitacion],
+    ["detalleAsistencia", miembro.asistencia]
+  ].forEach(([id, valor]) => {
+    const elemento = document.getElementById(id);
+    const estado = valor || "Pendiente";
+    elemento.textContent = estado;
+    elemento.className = `detalle-estado-valor estado-${estado.toLowerCase().replace("í", "i")}`;
+  });
 }
 
 // ==========================================
@@ -100,6 +144,9 @@ document.getElementById("apellidos").value =
 document.getElementById("nombres").value =
   miembro.nombres || "";
 
+document.getElementById("lugarPertenencia").value =
+  miembro.lugarPertenencia || "";
+
 document.getElementById("celular").value =
   miembro.celular || "";
 
@@ -109,8 +156,9 @@ document.getElementById("mesa").value =
 document.getElementById("cargo").value =
   miembro.cargo || "";
 
-document.getElementById("contacto").value =
-  miembro.contacto || "";
+opcionesContacto.forEach(opcion => {
+  opcion.checked = opcion.value === miembro.contacto;
+});
 
 document.getElementById("capacitacion").value =
   miembro.capacitacion || "";
@@ -178,11 +226,37 @@ campos.forEach(campo => {
 
 }
 
+function abrirEditar(miembro) {
+  modoFormulario = "editar";
+  miembroEditando = miembro;
+  titulo.textContent = "Editar miembro de mesa";
+  cargarDatos(miembro);
+  formulario.style.display = "block";
+  detalleMiembro.classList.remove("visible");
+  modal.classList.remove("modal-detalle-activo");
+  habilitarCampos();
+  btnGuardar.type = "submit";
+  btnGuardar.textContent = "Guardar cambios";
+  btnGuardar.style.display = "inline-flex";
+  btnEliminar.style.display = "inline-flex";
+  btnCancelar.textContent = "Cancelar";
+  modal.classList.remove("oculto");
+}
+
 // ==========================================
 // CAMPOS CONDICIONALES
 // ==========================================
 
 function actualizarCamposCondicionales() {
+
+if (obtenerContacto() === "Sí") {
+  campoCelular.classList.add("visible");
+  celularInput.required = true;
+} else {
+  campoCelular.classList.remove("visible");
+  celularInput.required = false;
+  celularInput.value = "";
+}
 
 if (!capacitacion || !modalidad) {
   return;
@@ -237,6 +311,10 @@ if (credencial.value === "Sí") {
 
 }
 
+function obtenerContacto() {
+  return document.querySelector('input[name="contacto"]:checked')?.value || "Pendiente";
+}
+
 // ==========================================
 // EVENTO CAPACITACIÓN
 // ==========================================
@@ -259,6 +337,10 @@ credencial.addEventListener(
 "change",
 actualizarCamposCondicionales
 );
+
+opcionesContacto.forEach(opcion => {
+  opcion.addEventListener("change", actualizarCamposCondicionales);
+});
 
 // ==========================================
 // BOTÓN PRINCIPAL
@@ -330,6 +412,9 @@ const apellidos =
 const nombres =
   document.getElementById("nombres").value.trim();
 
+const lugarPertenencia =
+  document.getElementById("lugarPertenencia").value.trim();
+
 const celular =
   document.getElementById("celular").value.trim();
 
@@ -339,8 +424,7 @@ const mesa =
 const cargo =
   document.getElementById("cargo").value;
 
-const contacto =
-  document.getElementById("contacto").value;
+const contacto = obtenerContacto();
 
 const capacitacionValue =
   document.getElementById("capacitacion").value;
@@ -370,6 +454,7 @@ const datosMiembro = {
   dni,
   apellidos,
   nombres,
+  lugarPertenencia,
   celular,
   mesa,
   cargo,
@@ -407,6 +492,7 @@ if (
   miembroEditando.dni = dni;
   miembroEditando.apellidos = apellidos;
   miembroEditando.nombres = nombres;
+  miembroEditando.lugarPertenencia = lugarPertenencia;
   miembroEditando.celular = celular;
   miembroEditando.mesa = mesa;
   miembroEditando.cargo = cargo;
@@ -447,6 +533,7 @@ if (modoFormulario === "nuevo") {
     dni,
     apellidos,
     nombres,
+    lugarPertenencia,
     celular,
     mesa,
     cargo,
@@ -488,6 +575,9 @@ miembroEditando = null;
 modoFormulario = "nuevo";
 
 formulario.reset();
+formulario.style.display = "block";
+detalleMiembro.classList.remove("visible");
+modal.classList.remove("modal-detalle-activo");
 
 habilitarCampos();
 
@@ -499,6 +589,7 @@ btnGuardar.type = "submit";
 btnGuardar.textContent =
   "Guardar miembro";
 btnEliminar.style.display = "none";
+btnCancelar.textContent = "Cancelar";
 
 }
 
@@ -525,7 +616,7 @@ btnCancelar.addEventListener(
 cerrarModal
 );
 
-btnEliminar.addEventListener("click", () => {
+function eliminarMiembro() {
   if (!miembroEditando || !confirm("¿Deseas eliminar este miembro? Esta acción no se puede deshacer.")) {
     return;
   }
@@ -540,7 +631,9 @@ btnEliminar.addEventListener("click", () => {
     callback();
     mostrarMensaje("Miembro eliminado correctamente.");
   }
-});
+}
+
+btnEliminar.addEventListener("click", eliminarMiembro);
 
 modal.addEventListener("click", event => {
   if (event.target === modal) {
@@ -568,5 +661,14 @@ event => {
 }
 
 );
+
+document.addEventListener("editarMiembro", event => {
+  abrirEditar(event.detail);
+});
+
+document.addEventListener("eliminarMiembro", event => {
+  miembroEditando = event.detail;
+  eliminarMiembro();
+});
 
 }
