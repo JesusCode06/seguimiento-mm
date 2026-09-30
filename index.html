@@ -492,7 +492,10 @@
         <section class="detalle-miembro" id="detalleMiembro" aria-live="polite">
             <div class="detalle-resumen">
                 <div class="detalle-identidad">
-                    <div class="detalle-avatar" aria-hidden="true">👤</div>
+                    <div class="detalle-avatar" aria-hidden="true">
+                        <span id="detalleAvatarIcono" aria-hidden="true">👤</span>
+                        <img id="detalleAvatarImagen" alt="" hidden>
+                    </div>
                     <div>
                         <h2 id="detalleNombreCompleto"></h2>
                         <p><span class="detalle-meta-icon">▣</span><span id="detalleDni"></span><span class="detalle-separador">•</span><span class="detalle-meta-icon">☎</span><span id="detalleCelular"></span></p>
@@ -564,6 +567,21 @@
                     👤 Datos personales
                 </h3>
 
+                <div class="formulario-campo completo campo-fotografia">
+                    <label>Fotografía</label>
+                    <div class="formulario-fotografia">
+                        <div class="formulario-fotografia-preview" aria-hidden="true">
+                            <span id="iconoFotografiaFormulario">👤</span>
+                            <img id="vistaPreviaFotografia" alt="" hidden>
+                        </div>
+                        <div>
+                            <input id="archivoFotografia" type="file" accept="image/*" hidden>
+                            <button class="btn-secundario" id="btnFotografia" type="button">
+                                Seleccionar fotografía
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="formulario-campo completo campo-contacto">
                     <span class="formulario-etiqueta">¿Se logró contactar a la persona? *</span>

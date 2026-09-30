@@ -14,6 +14,13 @@ export function inicializarFormulario(miembros, callback) {
 const modal = document.getElementById("modalMiembro");
 const formulario = document.getElementById("formularioMiembro");
 const detalleMiembro = document.getElementById("detalleMiembro");
+const btnFotografia = document.getElementById("btnFotografia");
+const archivoFotografia = document.getElementById("archivoFotografia");
+const detalleAvatarIcono = document.getElementById("detalleAvatarIcono");
+const detalleAvatarImagen = document.getElementById("detalleAvatarImagen");
+const iconoFotografiaFormulario = document.getElementById("iconoFotografiaFormulario");
+const vistaPreviaFotografia = document.getElementById("vistaPreviaFotografia");
+let fotografiaFormulario = "";
 
 const btnNuevo = document.getElementById("btnNuevoMiembro");
 const btnCerrar = document.getElementById("btnCerrarModal");
@@ -47,6 +54,8 @@ miembroEditando = null;
 titulo.textContent = "Nuevo miembro de mesa";
 
 formulario.reset();
+fotografiaFormulario = "";
+actualizarVistaFotografia();
 formulario.style.display = "block";
 detalleMiembro.classList.remove("visible");
 modal.classList.remove("modal-detalle-activo");
@@ -96,6 +105,11 @@ modal.classList.remove("oculto");
 
 function renderizarDetalle(miembro) {
   const nombreCompleto = `${miembro.nombres || ""} ${miembro.apellidos || ""}`.trim();
+  const tieneFotografia = Boolean(miembro.foto);
+  detalleAvatarIcono.hidden = tieneFotografia;
+  detalleAvatarImagen.hidden = !tieneFotografia;
+  detalleAvatarImagen.src = miembro.foto || "";
+
   const valores = {
     detalleNombreCompleto: nombreCompleto,
     detalleDni: `DNI ${miembro.dni || "No registrado"}`,
@@ -134,6 +148,9 @@ function renderizarDetalle(miembro) {
 // ==========================================
 
 function cargarDatos(miembro) {
+
+fotografiaFormulario = miembro.foto || "";
+actualizarVistaFotografia();
 
 document.getElementById("dni").value =
   miembro.dni || "";
@@ -183,6 +200,16 @@ document.getElementById("modalidadCredencial").value =
 
 actualizarCamposCondicionales();
 
+}
+
+function actualizarVistaFotografia() {
+  const tieneFotografia = Boolean(fotografiaFormulario);
+  iconoFotografiaFormulario.hidden = tieneFotografia;
+  vistaPreviaFotografia.hidden = !tieneFotografia;
+  vistaPreviaFotografia.src = fotografiaFormulario;
+  btnFotografia.textContent = tieneFotografia
+    ? "Cambiar fotografía"
+    : "Seleccionar fotografía";
 }
 
 // ==========================================
@@ -466,7 +493,8 @@ const datosMiembro = {
   credencial: credencialValue,
   modalidadCredencial: modalidadCredencialValue
   ,
-  nota
+  nota,
+  foto: fotografiaFormulario
 };
 
 const errorValidacion = validarMiembro(
@@ -510,6 +538,7 @@ if (
   miembroEditando.modalidadCredencial =
     modalidadCredencialValue;
   miembroEditando.nota = nota;
+  miembroEditando.foto = fotografiaFormulario;
 
   guardarMiembros(miembros);
   document.dispatchEvent(new CustomEvent("miembrosActualizados"));
@@ -543,9 +572,9 @@ if (modoFormulario === "nuevo") {
     lugarCapacitacion,
     asistencia,
     credencial: credencialValue,
-    modalidadCredencial: modalidadCredencialValue
-    ,
-    nota
+    modalidadCredencial: modalidadCredencialValue,
+    nota,
+    foto: fotografiaFormulario
 
   };
 
@@ -575,6 +604,8 @@ miembroEditando = null;
 modoFormulario = "nuevo";
 
 formulario.reset();
+fotografiaFormulario = "";
+actualizarVistaFotografia();
 formulario.style.display = "block";
 detalleMiembro.classList.remove("visible");
 modal.classList.remove("modal-detalle-activo");
@@ -646,6 +677,59 @@ document.addEventListener("keydown", event => {
     cerrarModal();
   }
 });
+
+btnFotografia.addEventListener("click", () => archivoFotografia.click());
+
+archivoFotografia.addEventListener("change", async () => {
+  const archivo = archivoFotografia.files[0];
+
+  if (!archivo) {
+    return;
+  }
+
+  try {
+    fotografiaFormulario = await crearFotografiaOptimizada(archivo);
+    actualizarVistaFotografia();
+    mostrarMensaje("Fotografía lista. Guarda el formulario para conservarla.");
+  } catch (error) {
+    mostrarMensaje(error.message || "No se pudo guardar la fotografía.", "error");
+  } finally {
+    archivoFotografia.value = "";
+  }
+});
+
+function crearFotografiaOptimizada(archivo) {
+  return new Promise((resolve, reject) => {
+    if (!archivo.type.startsWith("image/")) {
+      reject(new Error("Selecciona un archivo de imagen."));
+      return;
+    }
+
+    const lector = new FileReader();
+    lector.onerror = () => reject(new Error("No se pudo leer el archivo de imagen."));
+    lector.onload = () => {
+      const imagen = new Image();
+      imagen.onerror = () => reject(new Error("El archivo no es una imagen compatible."));
+      imagen.onload = () => {
+        const escala = Math.min(1, 512 / Math.max(imagen.width, imagen.height));
+        const lienzo = document.createElement("canvas");
+        lienzo.width = Math.max(1, Math.round(imagen.width * escala));
+        lienzo.height = Math.max(1, Math.round(imagen.height * escala));
+
+        const contexto = lienzo.getContext("2d");
+        if (!contexto) {
+          reject(new Error("No se pudo procesar la imagen."));
+          return;
+        }
+
+        contexto.drawImage(imagen, 0, 0, lienzo.width, lienzo.height);
+        resolve(lienzo.toDataURL("image/jpeg", 0.82));
+      };
+      imagen.src = lector.result;
+    };
+    lector.readAsDataURL(archivo);
+  });
+}
 
 // ==========================================
 // EVENTO VER MIEMBRO
